@@ -8,6 +8,16 @@ app.launch(function (request, response) {
     response.say('Omnius is Online');
     response.shouldEndSession(false);
 });
+
+
+app.intent('endIntent',
+    function (request, response) {
+        response.say('stopping, by your command');
+        response.shouldEndSession(true);
+        response.send();
+        return false;
+    });
+
 /**
  * IntentRequest.
  */
@@ -23,7 +33,7 @@ app.intent('directionIntent',
                 Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/forward", function (error, Response, body) {
                     if (!error && Response.statusCode == 200) {
                         console.log(body);
-                        response.say('forward'); //
+                        response.say('going forward, by your command'); //
                         response.shouldEndSession(false);
                         response.reprompt('Please tell me where to go');
                         response.send();
@@ -38,7 +48,7 @@ app.intent('directionIntent',
                 Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/backward", function (error, Response, body) {
                     if (!error && Response.statusCode == 200) {
                         console.log(body);
-                        response.say('backward'); //
+                        response.say('going backward, by your command'); //
                         response.shouldEndSession(false);
                         response.reprompt('Please tell me where to go');
                         response.send();
@@ -53,7 +63,7 @@ app.intent('directionIntent',
                 Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/left", function (error, Response, body) {
                     if (!error && Response.statusCode == 200) {
                         console.log(body);
-                        response.say('left'); //
+                        response.say('turning left, by your command'); //
                         response.shouldEndSession(false);
                         response.reprompt('Please tell me where to go');
                         response.send();
@@ -68,7 +78,7 @@ app.intent('directionIntent',
                 Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/right", function (error, Response, body) {
                     if (!error && Response.statusCode == 200) {
                         console.log(body);
-                        response.say('right'); //
+                        response.say('turning right, by your command'); //
                         response.shouldEndSession(false);
                         response.reprompt('Please tell me where to go');
                         response.send();
