@@ -1,64 +1,99 @@
 var alexa = require('alexa-app');
 var app = new alexa.app();
-
+var Request = require('request');
 /**
  * LaunchRequest.
  */
-app.launch(function(request,response) {
-	response.say('Hey there fancy pants!');
-	response.card("Hey there fancy pants!","This is an example card");
+app.launch(function (request, response) {
+    response.say('Omnius is Online');
+    response.shouldEndSession(false);
 });
-
-
 /**
  * IntentRequest.
  */
-app.intent('number',
-  {
-    'slots':{'number':'NUMBER'},
-    'utterances':[ 'say the number {1-100|number}' ]
-  },
-  function(request,response) {
-    var number = request.slot('number');
-    response.say('You asked for the number '+number);
-    response.shouldEndSession(true);
-    response.send();
-  }
+app.intent('directionIntent',
+    {
+        'slots': {'dir': 'LIST_OF_DIRECTIONS'},
+        'utterances': ['go {dir}']
+    },
+    function (request, response) {
+        var direction = request.slot('dir');
+        switch (direction) {
+            case 'forward':
+                Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/forward", function (error, Response, body) {
+                    if (!error && Response.statusCode == 200) {
+                        console.log(body);
+                        response.say('forward'); //
+                        response.shouldEndSession(false);
+                        response.reprompt('Please tell me where to go');
+                        response.send();
+                    } else {
+                        response.say('what?').reprompt('where do you want me to go?');
+                        response.shouldEndSession(false);
+                        response.send();
+                    }
+                });
+                break;
+            case 'backward':
+                Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/backward", function (error, Response, body) {
+                    if (!error && Response.statusCode == 200) {
+                        console.log(body);
+                        response.say('backward'); //
+                        response.shouldEndSession(false);
+                        response.reprompt('Please tell me where to go');
+                        response.send();
+                    } else {
+                        response.say('what?').reprompt('where do you want me to go?');
+                        response.shouldEndSession(false);
+                        response.send();
+                    }
+                });
+                break;
+            case 'left':
+                Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/left", function (error, Response, body) {
+                    if (!error && Response.statusCode == 200) {
+                        console.log(body);
+                        response.say('left'); //
+                        response.shouldEndSession(false);
+                        response.reprompt('Please tell me where to go');
+                        response.send();
+                    } else {
+                        response.say('what?').reprompt('where do you want me to go?');
+                        response.shouldEndSession(false);
+                        response.send();
+                    }
+                });
+                break;
+            case 'right':
+                Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/right", function (error, Response, body) {
+                    if (!error && Response.statusCode == 200) {
+                        console.log(body);
+                        response.say('right'); //
+                        response.shouldEndSession(false);
+                        response.reprompt('Please tell me where to go');
+                        response.send();
+                    } else {
+                        response.say('what?').reprompt('where do you want me to go?');
+                        response.shouldEndSession(false);
+                        response.send();
+                    }
+                });
+                break;
+            default:
+                response.say('what?').reprompt('where do you want me to go?');
+                response.shouldEndSession(false);
+                response.send();
+                break;
+        }
+        // Return false immediately so alexa-app doesn't send the response
+        return false;
+    }
 );
-
-
-/**
- * IntentRequest w/ asynchronous response.
- */
-app.intent('checkStatus', 
-	{
-    	'utterances':[ 
-    		'status check', 'what is the status', 'tell me the status'
-    	]
-  	},
-	function(request,response) {
-		setTimeout(function() {		// simulate an async request
-
-	        // This is async and will run after a brief delay
-	        response.say('Status is operational, mam!');
-	    
-	        // Must call send to end the original request
-	        response.send();
-		
-		}, 250);
-
-	    // Return false immediately so alexa-app doesn't send the response
-	    return false;
-	}
-);
-
-
 /**
  * Error handler for any thrown errors.
  */
-app.error = function(exception, request, response) {
+app.error = function (exception, request, response) {
     response.say('Sorry, something bad happened');
 };
-
 // Connect to lambda
 exports.handler = app.lambda();
