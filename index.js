@@ -30,7 +30,7 @@ app.intent('directionIntent',
         var direction = request.slot('dir');
         switch (direction) {
             case 'forward':
-                Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/forward", function (error, Response, body) {
+                Request("https://21db3d88.ngrok.io/api/robots/omnius/commands/forward", function (error, Response, body) {
                     if (!error && Response.statusCode == 200) {
                         console.log(body);
                         response.say('going forward, by your command'); //
@@ -45,7 +45,7 @@ app.intent('directionIntent',
                 });
                 break;
             case 'backward':
-                Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/backward", function (error, Response, body) {
+                Request("https://21db3d88.ngrok.io/api/robots/omnius/commands/backward", function (error, Response, body) {
                     if (!error && Response.statusCode == 200) {
                         console.log(body);
                         response.say('going backward, by your command'); //
@@ -60,7 +60,7 @@ app.intent('directionIntent',
                 });
                 break;
             case 'left':
-                Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/left", function (error, Response, body) {
+                Request("https://21db3d88.ngrok.io/api/robots/omnius/commands/left", function (error, Response, body) {
                     if (!error && Response.statusCode == 200) {
                         console.log(body);
                         response.say('turning left, by your command'); //
@@ -75,7 +75,7 @@ app.intent('directionIntent',
                 });
                 break;
             case 'right':
-                Request("https://7bce550f.ngrok.io/api/robots/omnius/commands/right", function (error, Response, body) {
+                Request("https://21db3d88.ngrok.io/api/robots/omnius/commands/right", function (error, Response, body) {
                     if (!error && Response.statusCode == 200) {
                         console.log(body);
                         response.say('turning right, by your command'); //
